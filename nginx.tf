@@ -67,7 +67,7 @@ resource "kubernetes_service_account" "nginx" {
 
 resource "kubernetes_cluster_role" "nginx" {
   metadata {
-    name = "${var.namespace != "none" ? var.namespace : var.name}-clusterrole"
+    name = "${kubernetes_namespace.nginx.metadata.0.name}-clusterrole"
 
     labels = {
       "app.kubernetes.io/name"       = var.name
