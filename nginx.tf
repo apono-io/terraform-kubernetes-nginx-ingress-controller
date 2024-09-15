@@ -1,7 +1,7 @@
 // https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.29.0/deploy/static/mandatory.yaml
 resource "kubernetes_namespace" "nginx" {
   metadata {
-    name = var.name
+    name = var.namespace != "none" ? var.namespace : var.name
 
     labels = {
       "app.kubernetes.io/name"       = var.name
@@ -67,7 +67,7 @@ resource "kubernetes_service_account" "nginx" {
 
 resource "kubernetes_cluster_role" "nginx" {
   metadata {
-    name = "${var.name}-clusterrole"
+    name = "ngnix-ingres-v3-clusterrole"
 
     labels = {
       "app.kubernetes.io/name"       = var.name
@@ -178,7 +178,7 @@ resource "kubernetes_role_binding" "nginx" {
 
 resource "kubernetes_cluster_role_binding" "nginx" {
   metadata {
-    name = "${var.name}-clusterrole-binding"
+    name = "${var.namespace != "none" ? var.namespace : var.name}-clusterrole-binding"
 
     labels = {
       "app.kubernetes.io/name"       = var.name

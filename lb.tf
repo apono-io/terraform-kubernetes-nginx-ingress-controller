@@ -1,7 +1,7 @@
 // https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.29.0/deploy/static/provider/aws/service-nlb.yaml
 resource "kubernetes_service" "lb" {
   metadata {
-    name      = var.name
+    name = var.namespace != "none" ? var.namespace : var.name
     namespace = kubernetes_namespace.nginx.metadata.0.name
 
     labels = {
