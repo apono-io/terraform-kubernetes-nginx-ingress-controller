@@ -52,6 +52,18 @@ resource "kubernetes_config_map" "nginx_udp" {
   }
 }
 
+resource "kubernetes_secret" "nginx-serviceaccount-token" {
+  metadata {
+    name      = "${var.name}-account-token"
+    namespace = "default"
+    annotations = {
+      "kubernetes.io/service-account.name" = kubernetes_service_account.nginx.metadata[0].name
+    }
+  }
+
+  type = "kubernetes.io/service-account-token"
+}
+
 resource "kubernetes_service_account" "nginx" {
   metadata {
     name      = "${var.name}-serviceaccount"
